@@ -90,18 +90,21 @@ document.getElementById('btnCake').addEventListener('click', () => {
     // Show cake container
     cakeContainer.classList.add('active');
     
-    // Reset SVG animation by reloading
+    // Reset SVG animation by removing and re-adding the SVG element
     const cakeSVG = document.getElementById('cakeSVG');
-    const src = cakeSVG.src;
-    cakeSVG.src = '';
-    setTimeout(() => {
-        cakeSVG.src = src;
-    }, 10);
+    const parent = cakeSVG.parentNode;
+    const nextSibling = cakeSVG.nextElementSibling;
+    const clone = cakeSVG.cloneNode(true);
+    cakeSVG.remove();
+    parent.insertBefore(clone, nextSibling);
     
     // Play music
     bgMusic.play().catch(error => {
         console.log('Audio play prevented:', error);
     });
+    
+    // Auto close after animation
+    autoCloseCake();
 });
 
 // Album button functionality
@@ -197,91 +200,20 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Add microphone functionality for blowing candles
-let isListening = false;
-let recognizer = null;
-
-// Check if browser supports speech recognition
-if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognizer = new SpeechRecognition();
-    recognizer.continuous = true;
-    recognizer.interimResults = false;
-    recognizer.lang = 'en-US';
-    
-    recognizer.onresult = (event) => {
-        const result = event.results[event.results.length - 1];
-        if (result.isFinal) {
-            const transcript = result[0].transcript.toLowerCase();
-            // Check if user is blowing (any sound detected)
-            if (transcript.length > 0 && isListening) {
-                blowOutCandles();
-                recognizer.stop();
-                isListening = false;
-            }
-        }
-    };
-    
-    recognizer.onerror = (event) => {
-        console.log('Speech recognition error:', event.error);
-        isListening = false;
-    };
-}
-
-function blowOutCandles() {
-    const cakeMessage = document.querySelector('.cake-message');
+// Auto close cake after animation completes
+function autoCloseCake() {
     const cakeContainer = document.getElementById('cakeContainer');
+    const cakeMessage = document.querySelector('.cake-message');
     
-    // Hide flames by removing animation
-    const flames = document.querySelectorAll('.flame');
-    flames.forEach(flame => {
-        flame.style.animation = 'none';
-        flame.style.opacity = '0';
-    });
-    
-    cakeMessage.textContent = 'Your wish will come true! ✨💖';
-    triggerConfetti();
-    
-    // Close cake container and return to main page after 3 seconds
+    // Wait for flames to appear, then close after 3 seconds
     setTimeout(() => {
-        cakeContainer.classList.remove('active');
-        cakeMessage.textContent = 'Make a wish before you blow the candles 🎂💖';
-    }, 3000);
-}
-
-// Add blow functionality to cake
-document.getElementById('cakeContainer')?.addEventListener('click', () => {
-    const instruction = document.createElement('div');
-    instruction.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255, 182, 193, 0.9);
-        padding: 15px 30px;
-        border-radius: 20px;
-        color: #d81b60;
-        font-weight: 600;
-        z-index: 3000;
-        animation: fadeIn 0.3s ease-out;
-    `;
-    instruction.textContent = 'Say anything to blow the candles! 🎂';
-    document.body.appendChild(instruction);
-    
-    if (recognizer && !isListening) {
-        isListening = true;
-        recognizer.start();
+        cakeMessage.textContent = 'Your wish will come true! ✨💖';
+        triggerConfetti();
         
         setTimeout(() => {
-            instruction.remove();
+            cakeContainer.classList.remove('active');
+            cakeMessage.textContent = 'Make a wish before you blow the candles 🎂💖';
         }, 3000);
-        
-        setTimeout(() => {
-            if (isListening) {
-                recognizer.stop();
-                isListening = false;
-            }
-        }, 10000);
-    }
-});
+    }, 9000); // Total ~9s: cake animation complete + 3s message
+}
 
