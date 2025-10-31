@@ -155,10 +155,23 @@ document.getElementById('btnCollect').addEventListener('click', () => {
     
     document.body.appendChild(modal);
     
-    // Close modal on click
-    setTimeout(() => {
+    // Close modal on click anywhere
+    modal.addEventListener('click', () => {
         modal.remove();
-    }, 2000);
+        // Close Album section to return to main page
+        const albumSection = document.getElementById('albumSection');
+        albumSection.classList.remove('active');
+    });
+    
+    // Close modal automatically after 3 seconds
+    setTimeout(() => {
+        if (modal.parentNode) {
+            modal.remove();
+            // Close Album section to return to main page
+            const albumSection = document.getElementById('albumSection');
+            albumSection.classList.remove('active');
+        }
+    }, 3000);
     
     // Trigger confetti
     triggerConfetti();
