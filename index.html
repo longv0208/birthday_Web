@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday — Made with Love</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with animated hearts -->
+        <header class="header">
+            <h1 class="title">
+                <span class="title-text">Happy Birthday!</span>
+                <div class="hearts">
+                    <span class="heart">💖</span>
+                    <span class="heart">💕</span>
+                    <span class="heart">🎉</span>
+                </div>
+            </h1>
+        </header>
+
+        <!-- Video/Image Section -->
+        <div class="video-section">
+            <div class="video-wrapper">
+                <div class="video-content">
+                    <h2 class="video-title">hi, twenties!</h2>
+                    <p class="video-subtitle">
+                        Wishing you a day filled with love, joy, and all the things that make you happiest 💖
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Buttons -->
+        <div class="buttons-section">
+            <button class="btn btn-cake" id="btnCake">
+                <span>🎂</span>
+                <span>Cake</span>
+            </button>
+            <button class="btn btn-album" id="btnAlbum">
+                <span>🪩</span>
+                <span>Album</span>
+            </button>
+            <button class="btn btn-read" id="btnRead">
+                <span>💌</span>
+                <span>Read Me</span>
+            </button>
+        </div>
+
+        <!-- Cake Animation Container -->
+        <div class="cake-container" id="cakeContainer">
+            <div class="cake-wrapper">
+                <div class="cake-layer cake-layer-3" id="layer1"></div>
+                <div class="cake-layer cake-layer-2" id="layer2"></div>
+                <div class="cake-layer cake-layer-1" id="layer3"></div>
+                <div class="candle-container" id="candle">
+                    <div class="candle"></div>
+                    <div class="flame" id="flame"></div>
+                </div>
+            </div>
+            <p class="cake-message">Make a wish before you blow the candles 🎂💖</p>
+        </div>
+
+        <!-- Album Section -->
+        <div class="album-section" id="albumSection">
+            <div class="album-container">
+                <div class="photobooth-strip">
+                    <div class="scroll-container">
+                        <div class="photo-item photo-1">
+                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400" alt="Photo 1">
+                        </div>
+                        <div class="photo-item photo-2">
+                            <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400" alt="Photo 2">
+                        </div>
+                        <div class="photo-item photo-3">
+                            <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400" alt="Photo 3">
+                        </div>
+                        <div class="photo-item photo-4">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Photo 4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-collect" id="btnCollect">COLLECT</button>
+        </div>
+
+        <!-- Read Me Section -->
+        <div class="readme-section" id="readmeSection">
+            <div class="envelope" id="envelope">
+                <div class="envelope-front">
+                    <div class="envelope-top"></div>
+                </div>
+                <div class="envelope-back">
+                    <div class="letter">
+                        <div class="letter-content">
+                            <h3>💌 A Letter for You</h3>
+                            <p>
+                                Happy Birthday to the most amazing girl!<br><br>
+                                Keep shining, keep smiling, and never stop believing in yourself 💖<br><br>
+                                You are loved beyond measure.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confetti Canvas -->
+        <canvas id="confettiCanvas"></canvas>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-text">(made with love)</p>
+            <p class="footer-author">eazypizzylife ✨</p>
+        </footer>
+    </div>
+
+    <!-- Background Audio -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
