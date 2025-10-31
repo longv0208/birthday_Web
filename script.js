@@ -129,7 +129,7 @@ document.getElementById('btnCollect').addEventListener('click', () => {
     modal.className = 'modal active';
     modal.innerHTML = `
         <div class="modal-content">
-            <h2>Made with love 💕</h2>
+            <h2>Made with hate 💕</h2>
         </div>
     `;
     
@@ -230,6 +230,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
 
 function blowOutCandles() {
     const cakeMessage = document.querySelector('.cake-message');
+    const cakeContainer = document.getElementById('cakeContainer');
     
     // Hide flames by removing animation
     const flames = document.querySelectorAll('.flame');
@@ -241,8 +242,9 @@ function blowOutCandles() {
     cakeMessage.textContent = 'Your wish will come true! ✨💖';
     triggerConfetti();
     
-    // Restore original message after 3 seconds
+    // Close cake container and return to main page after 3 seconds
     setTimeout(() => {
+        cakeContainer.classList.remove('active');
         cakeMessage.textContent = 'Make a wish before you blow the candles 🎂💖';
     }, 3000);
 }
