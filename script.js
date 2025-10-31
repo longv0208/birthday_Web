@@ -85,43 +85,23 @@ window.addEventListener('resize', () => {
 // Cake button functionality
 document.getElementById('btnCake').addEventListener('click', () => {
     const cakeContainer = document.getElementById('cakeContainer');
-    const flame = document.getElementById('flame');
     const bgMusic = document.getElementById('bgMusic');
     
     // Show cake container
     cakeContainer.classList.add('active');
     
-    // Reset animations
-    const layers = ['layer1', 'layer2', 'layer3'];
-    layers.forEach((id, index) => {
-        const layer = document.getElementById(id);
-        layer.style.animation = 'none';
-        setTimeout(() => {
-            layer.style.animation = '';
-        }, 10);
-    });
-    
-    // Light the candle after layers fall
+    // Reset SVG animation by reloading
+    const cakeSVG = document.getElementById('cakeSVG');
+    const src = cakeSVG.src;
+    cakeSVG.src = '';
     setTimeout(() => {
-        flame.classList.add('lit');
-        triggerConfetti();
-    }, 2500);
+        cakeSVG.src = src;
+    }, 10);
     
     // Play music
     bgMusic.play().catch(error => {
         console.log('Audio play prevented:', error);
     });
-    
-    // Close cake container after 5 seconds
-    setTimeout(() => {
-        cakeContainer.classList.remove('active');
-        flame.classList.remove('lit');
-        const cakeMessage = document.querySelector('.cake-message');
-        cakeMessage.style.animation = 'none';
-        setTimeout(() => {
-            cakeMessage.style.animation = 'fadeIn 1s ease-out 2.5s forwards';
-        }, 10);
-    }, 8000);
 });
 
 // Album button functionality
@@ -249,10 +229,15 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
 }
 
 function blowOutCandles() {
-    const flame = document.getElementById('flame');
     const cakeMessage = document.querySelector('.cake-message');
     
-    flame.classList.remove('lit');
+    // Hide flames by removing animation
+    const flames = document.querySelectorAll('.flame');
+    flames.forEach(flame => {
+        flame.style.animation = 'none';
+        flame.style.opacity = '0';
+    });
+    
     cakeMessage.textContent = 'Your wish will come true! ✨💖';
     triggerConfetti();
     
@@ -264,39 +249,37 @@ function blowOutCandles() {
 
 // Add blow functionality to cake
 document.getElementById('cakeContainer')?.addEventListener('click', () => {
-    if (document.getElementById('flame').classList.contains('lit')) {
-        const instruction = document.createElement('div');
-        instruction.style.cssText = `
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(255, 182, 193, 0.9);
-            padding: 15px 30px;
-            border-radius: 20px;
-            color: #d81b60;
-            font-weight: 600;
-            z-index: 3000;
-            animation: fadeIn 0.3s ease-out;
-        `;
-        instruction.textContent = 'Say anything to blow the candles! 🎂';
-        document.body.appendChild(instruction);
+    const instruction = document.createElement('div');
+    instruction.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(255, 182, 193, 0.9);
+        padding: 15px 30px;
+        border-radius: 20px;
+        color: #d81b60;
+        font-weight: 600;
+        z-index: 3000;
+        animation: fadeIn 0.3s ease-out;
+    `;
+    instruction.textContent = 'Say anything to blow the candles! 🎂';
+    document.body.appendChild(instruction);
+    
+    if (recognizer && !isListening) {
+        isListening = true;
+        recognizer.start();
         
-        if (recognizer && !isListening) {
-            isListening = true;
-            recognizer.start();
-            
-            setTimeout(() => {
-                instruction.remove();
-            }, 3000);
-            
-            setTimeout(() => {
-                if (isListening) {
-                    recognizer.stop();
-                    isListening = false;
-                }
-            }, 10000);
-        }
+        setTimeout(() => {
+            instruction.remove();
+        }, 3000);
+        
+        setTimeout(() => {
+            if (isListening) {
+                recognizer.stop();
+                isListening = false;
+            }
+        }, 10000);
     }
 });
 
