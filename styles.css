@@ -394,7 +394,7 @@ body {
 }
 
 .photo-container {
-    animation: autoScroll 50s linear infinite;
+    animation: autoScroll 15s linear infinite;
 }
 
 @keyframes autoScroll {
